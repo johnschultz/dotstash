@@ -1,6 +1,6 @@
 [user]
-	name = Paulo Koch
-	email = paulo.koch@gmail.com
+	name = Johnathon Schultz
+	email = johnathon.schultz@gmail.com
 
 [core]
 	editor = vim
@@ -23,8 +23,8 @@
 	stat = False
 	tool = kdiff3
 
-[mergetool "kdiff3"]
-	path = /Users/pkoch/Applications/kdiff3.app/Contents/MacOS/kdiff3
+#[mergetool "kdiff3"]
+#	path = /Users/pkoch/Applications/kdiff3.app/Contents/MacOS/kdiff3
 
 [color]
 	ui = auto
