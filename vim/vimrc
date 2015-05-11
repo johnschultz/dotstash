@@ -38,6 +38,7 @@ Plugin 'wting/rust.vim'
 call vundle#end()
 filetype plugin indent on  " Enables filetype specific stuff
 
+set nu                 " Enable line numbers
 set autoindent         " Auto indent new lines
 set smartindent        " Make autoindent smarter
 set smarttab           " Proper indenting with <Tab>
