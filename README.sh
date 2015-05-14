@@ -6,6 +6,7 @@ cp profile $HOME/.profile
 cp ackrc $HOME/.ackrc
 cp gitconfig $HOME/.gitconfig
 cp hgrc $HOME/.hgrc
+cp tmux.conf $HOME/.tmux.conf
 
 if ! [[ -e ~/Library/"Application Support"/"Sublime Text 2"/Packages/User ]]; then
     mkdir -p ~/Library/"Application Support"/"Sublime Text 2"/Packages
