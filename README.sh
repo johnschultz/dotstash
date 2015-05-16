@@ -18,3 +18,4 @@ ln -s $DIRNAME/tmux.conf .tmux.conf
 
 echo "Don't forget to source ~/.profile"
 echo "Don't forget to :PluginInstall in Vim"
+echo "Run ./dotstash/install-oh-my-zsh.sh if you want that jazz"
