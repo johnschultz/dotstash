@@ -15,6 +15,7 @@ ln -s $DIRNAME/ackrc .ackrc
 ln -s $DIRNAME/gitconfig .gitconfig
 ln -s $DIRNAME/hgrc .hgrc
 ln -s $DIRNAME/tmux.conf .tmux.conf
+ln -s $DIRNAME/ssh-config .ssh/config
 
 echo "Don't forget to source ~/.profile"
 echo "Don't forget to :PluginInstall in Vim"

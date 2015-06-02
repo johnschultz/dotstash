@@ -1,0 +1,19 @@
+Host micro
+	Hostname 52.11.19.177
+	User ubuntu
+	IdentityFile ~/.ssh/amazon-ssh-key.pem
+
+Host bitbucket.org
+	Hostname bitbucket.org
+	User git
+	IdentityFile ~/.ssh/bitbucket-key
+
+Host github.com
+	Hostname github.com
+	User git
+	IdentityFile ~/.ssh/github_ssh_key
+
+Host *.yelpcorp.com dev3-devb
+	User jschultz
+	IdentityFile ~/.ssh/id_rsa 
+	ForwardAgent yes
