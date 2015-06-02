@@ -1,52 +1,52 @@
 [user]
-	name = Johnathon Schultz
-	email = johnathon.schultz@gmail.com
+    name = Johnathon Schultz
+    email = johnathon.schultz@gmail.com
 
 [core]
-	editor = vim
-	whitespace = trailing-space,space-before-tab,tab-in-indent
+    editor = vim
+    whitespace = trailing-space,space-before-tab,tab-in-indent
 
 [alias]
     ap = add -p
-	gl = log --graph --decorate --pretty=oneline --abbrev-commit --all --date-order
-	glb = log --graph --decorate --pretty=oneline --abbrev-commit
-	gla = !trap "" 13 && git log --graph --oneline --decorate --all $(git reflog | awk '{print $1}')
-	b = branch
-	d = diff
-	dc = diff --cached
-	st = status -sb
-	ci = commit
-	co = checkout
-	up = checkout
-	ff = merge --ff-only
+    gl = log --graph --decorate --pretty=oneline --abbrev-commit --all --date-order
+    glb = log --graph --decorate --pretty=oneline --abbrev-commit
+    gla = !trap "" 13 && git log --graph --oneline --decorate --all $(git reflog | awk '{print $1}')
+    b = branch
+    d = diff
+    dc = diff --cached
+    st = status -sb
+    ci = commit
+    co = checkout
+    up = checkout
+    ff = merge --ff-only
 
 [merge]
-	stat = False
-	tool = kdiff3
+    stat = False
+    tool = kdiff3
 
 #[mergetool "kdiff3"]
-#	path = /Users/pkoch/Applications/kdiff3.app/Contents/MacOS/kdiff3
+#    path = /Users/pkoch/Applications/kdiff3.app/Contents/MacOS/kdiff3
 
 [color]
-	ui = auto
+    ui = auto
 
 [color "branch"]
-	current = green reverse
-	local = green
-	remote = red
+    current = green reverse
+    local = green
+    remote = red
 
 [push]
-	default = current
+    default = current
 
 [grep]
-	lineNumber = true
+    lineNumber = true
 
 [mergetool]
-	prompt = false
+    prompt = false
 
 [rerere]
-	enabled = true
-	autoupdate = true
+    enabled = true
+    autoupdate = true
 
 [rebase]
-	autosquash = true
+    autosquash = true
