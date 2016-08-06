@@ -1,5 +1,5 @@
-Host micro
-	Hostname 52.11.19.177
+Host awsdev
+	Hostname 52.24.134.249
 	User ubuntu
 	IdentityFile ~/.ssh/amazon-ssh-key.pem
 
