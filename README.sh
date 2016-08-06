@@ -1,4 +1,5 @@
-DIRNAME=$(python -c "import os,sys; print os.path.realpath(sys.argv[1])" $(dirname $0))
+# DIRNAME=$(python -c "import os,sys; print os.path.realpath(sys.argv[1])" $(dirname $0))
+DIRNAME=$(pwd)
 git submodule update --init --recursive
 ln -s vim/Vundle.vim vim/bundle/
 
