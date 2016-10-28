@@ -11,7 +11,7 @@ fi
 cd $HOME
 ln -s $DIRNAME/vim .vim
 ln -s .vim/vimrc .vimrc
-ln -s $DIRNAME/profile .profile
+ln -s $DIRNAME/profile .bashrc
 ln -s $DIRNAME/ackrc .ackrc
 ln -s $DIRNAME/gitconfig .gitconfig
 ln -s $DIRNAME/hgrc .hgrc
