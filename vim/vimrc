@@ -12,6 +12,7 @@ set runtimepath+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 
+Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'Raimondi/delimitMate'
 Plugin 'bling/vim-airline'

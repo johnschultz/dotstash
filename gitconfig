@@ -1,6 +1,7 @@
 [user]
     name = Johnathon Schultz
     email = johnathon.schultz@gmail.com
+    signingkey = 0x3AB557CAC5BF3B06
 
 [core]
     editor = vim
@@ -50,3 +51,7 @@
 
 [rebase]
     autosquash = true
+[commit]
+	gpgsign = true
+[gpg]
+	program = gpg2

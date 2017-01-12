@@ -32,9 +32,16 @@ if ! [[ -z $PS1 ]]; then
 fi
 
 # Autoload ssh-agent
-if ! ps aux | grep ssh-agent | grep `whoami` | grep -v grep > /dev/null; then
-    eval $(ssh-agent)
-    ssh-add 2> /dev/null
+#if ! ps aux | grep ssh-agent | grep `whoami` | grep -v grep > /dev/null; then
+#    eval $(ssh-agent)
+#    ssh-add 2> /dev/null
+#fi
+
+if [ -f "${HOME}/.gpg-agent-info" ]; then
+     . "${HOME}/.gpg-agent-info"
+       export GPG_AGENT_INFO
+       export SSH_AUTH_SOCK
+       export SSH_AGENT_PID
 fi
 
 if [[ -f `brew --prefix`/etc/bash_completion ]]; then
