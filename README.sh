@@ -17,6 +17,8 @@ ln -s $DIRNAME/gitconfig .gitconfig
 ln -s $DIRNAME/hgrc .hgrc
 ln -s $DIRNAME/tmux.conf .tmux.conf
 ln -s $DIRNAME/ssh-config .ssh/config
+ln -s $DIRNAME/gpg.conf .gnupg/gpg.conf
+ln -s $DIRNAME/gpg-agent.conf .gnupg/gpg-agent.conf
 
 echo "Don't forget to source ~/.profile"
 echo "Don't forget to :PluginInstall in Vim"

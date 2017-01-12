@@ -1,19 +1,21 @@
+ Host spinnaker-start
+   HostName spinnaker-dev.ads.internal.justin.tv
+   IdentityFile ~/.ssh/id_rsa
+   ControlMaster yes
+   ControlPath ~/.ssh/spinnaker-tunnel.ctl
+   RequestTTY no
+   LocalForward 9000 127.0.0.1:9000
+   LocalForward 8084 127.0.0.1:8084
+   LocalForward 8087 127.0.0.1:8087
+   User ubuntu
+
+ Host spinnaker-stop
+   HostName spinnaker-dev.ads.internal.justin.tv
+   IdentityFile ~/.ssh/id_rsa
+   ControlPath ~/.ssh/spinnaker-tunnel.ctl
+   RequestTTY no
+
 Host awsdev
 	Hostname 52.24.134.249
 	User ubuntu
 	IdentityFile ~/.ssh/amazon-ssh-key.pem
-
-Host bitbucket.org
-	Hostname bitbucket.org
-	User git
-	IdentityFile ~/.ssh/bitbucket-key
-
-Host github.com
-	Hostname github.com
-	User git
-	IdentityFile ~/.ssh/github_ssh_key
-
-Host *.yelpcorp.com dev3-devb
-	User jschultz
-	IdentityFile ~/.ssh/id_rsa 
-	ForwardAgent yes
