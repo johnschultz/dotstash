@@ -13,6 +13,10 @@ if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
 
     # GIT_PROMPT_STATUS_COMMAND=gitstatus_pre-1.7.10.sh # uncomment to support Git older than 1.7.10
 
+    GIT_PROMPT_START="\t\[\033[01;30m\]|\[\033[01;34m\]\u\[\033[01;32m\]@\h\[\033[00m\]:\[\033[01;31m\]\w\[\033[00m\]"
+    GIT_PROMPT_END_USER="${BoldBlue}${Time12a}${ResetColor} $ "
+    GIT_PROMPT_END_ROOT="${BoldBlue}${Time12a}${ResetColor} # "
+
     # GIT_PROMPT_START="[\t] \[$(tput sgr0)\]\[\033[38;5;11m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\]@\h:\[$(tput sgr0)\]\[\033[38;5;6m\]\w:\[$(tput sgr0)\]""]]]"   # uncomment for custom prompt start sequence
     # GIT_PROMPT_END=...      # uncomment for custom prompt end sequence
 
@@ -32,17 +36,17 @@ if ! [[ -z $PS1 ]]; then
 fi
 
 # Autoload ssh-agent
-#if ! ps aux | grep ssh-agent | grep `whoami` | grep -v grep > /dev/null; then
-#    eval $(ssh-agent)
-#    ssh-add 2> /dev/null
-#fi
-
-if [ -f "${HOME}/.gpg-agent-info" ]; then
-     . "${HOME}/.gpg-agent-info"
-       export GPG_AGENT_INFO
-       export SSH_AUTH_SOCK
-       export SSH_AGENT_PID
+if ! ps aux | grep ssh-agent | grep `whoami` | grep -v grep > /dev/null; then
+    eval $(ssh-agent)
+    ssh-add 2> /dev/null
 fi
+
+# if [ -f "${HOME}/.gpg-agent-info" ]; then
+#      . "${HOME}/.gpg-agent-info"
+#        export GPG_AGENT_INFO
+#        export SSH_AUTH_SOCK
+#        export SSH_AGENT_PID
+# fi
 
 if [[ -f `brew --prefix`/etc/bash_completion ]]; then
     . `brew --prefix`/etc/bash_completion
@@ -69,6 +73,38 @@ if ! [ -z $PS1 ]; then
     shopt -s histreedit   # Edit failled substitutions
 fi
 
-export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export HOMEBREW_GITHUB_API_TOKEN=3869ca5b83732325c46088fa80675f14ebe492b5
+
+export GOPATH=~/go
+#export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export PATH=$PATH:$GOPATH/bin # Add GOPATH to PATH for scripting
+export EDITOR=vim
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+
+eval "$(rbenv init -)"
+
+export TWITCH_TEST_LOCAL=1
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f /Users/schultjo/google-cloud-sdk/path.bash.inc ]; then
+  source '/Users/schultjo/google-cloud-sdk/path.bash.inc'
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f /Users/schultjo/google-cloud-sdk/completion.bash.inc ]; then
+  source '/Users/schultjo/google-cloud-sdk/completion.bash.inc'
+fi
+export PATH=$HOME/bin:$PATH
+export PATH=$HOME/.toolbox/bin:$PATH
+
+# RDE autocomplete
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+. $(brew --prefix)/etc/bash_completion
+fi
+
+alias bb='brazil-build'
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
