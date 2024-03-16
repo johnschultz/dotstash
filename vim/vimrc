@@ -13,39 +13,65 @@ set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'ekalinin/Dockerfile.vim'
+" \\w to move quickly between words
 Plugin 'Lokaltog/vim-easymotion'
+" Helps by adding closing quotes and such
 Plugin 'Raimondi/delimitMate'
+" Bar on the bottom
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+" Elixir
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'slashmili/alchemist.vim'
-Plugin 'fatih/vim-go'
+" Go support. Use :GoInstallBinaries
+Plugin 'myitcv/govim'
+" Plugin 'fatih/vim-go'
+" Seems unupdated, should consider changing
 Plugin 'gmarik/Vundle.vim'
-Plugin 'kien/ctrlp.vim'
+" Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'kien/rainbow_parentheses.vim'
+" Python autocomplete
 Plugin 'davidhalter/jedi-vim'
-Plugin 'leshill/vim-json'
-Plugin 'msanders/snipmate.vim'
-Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'nvie/vim-pep8'
-Plugin 'rking/ag.vim'
+Plugin 'leshill/vim-json'
+" Visual guide to indentation
+Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
+Plugin 'neomake/neomake'
+
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-rsi'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-haml'
-Plugin 'wting/rust.vim'
+" Rust Plugins
+Plugin 'racer-rust/vim-racer'
+Plugin 'rust-lang/rust.vim'
 " Plugin 'suan/vim-instant-markdown'
 " Plugin 'shime/vim-livedown'
 Plugin 'parkr/vim-jekyll'
 
 call vundle#end()
+
+" Show line indent guide
 filetype plugin indent on  " Enables filetype specific stuff
+let g:indent_guides_enable_on_vim_startup = 1
+
+" When writing a buffer (no delay).
+" call neomake#configure#automake('w')
+" When writing a buffer (no delay), and on normal mode changes (after 750ms).
+call neomake#configure#automake('nw', 750)
+" When reading a buffer (after 1s), and when writing (no delay).
+" call neomake#configure#automake('rw', 1000)
+" Full config: when writing or reading a buffer, and on changes in insert and
+" normal mode (after 1s; no delay when writing).
+" call neomake#configure#automake('nrwi', 500)
 
 set nu                 " Enable line numbers
 set autoindent         " Auto indent new lines
@@ -75,12 +101,39 @@ set wildmenu           " Enhanced command-line completion.
 set wildmode=list:longest " Show all alternatives and complete furtherest possible.
 set completeopt=menuone,longest,preview " Better completion menu
 set backupdir=~/.vim/backup
+" To get hover working in the terminal we need to set ttymouse. See
+"
+" :help ttymouse
+"
+" for the appropriate setting for your terminal. Note that despite the
+" automated tests using xterm as the terminal, a setting of ttymouse=xterm
+" does not work correctly beyond a certain column number (citation needed)
+" hence we use ttymouse=sgr
+set ttymouse=sgr
+
+" Suggestion: By default, govim populates the quickfix window with diagnostics
+" reported by gopls after a period of inactivity, the time period being
+" defined by updatetime (help updatetime). Here we suggest a short updatetime
+" time in order that govim/Vim are more responsive/IDE-like
+set updatetime=500
+
+" Suggestion: To make govim/Vim more responsive/IDE-like, we suggest a short
+" balloondelay
+set balloondelay=250
+
 set directory=~/.vim/backup
 if version >= 703
     set colorcolumn=80     " Vertical line on column 80
     set undofile           " Persistent undo history
     set undodir=~/.vim/backup
 endif
+let g:racer_cmd = "/home/user/.cargo/bin/racer"  " Rust racer
+let g:racer_experimental_completer = 1
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
 
 au FocusLost * silent! wall
 set clipboard=unnamed " Share paste buffers with OS.
