@@ -1,16 +1,16 @@
 [user]
     name = Johnathon Schultz
-    email = johnathon.schultz@gmail.com
+    email = schultjo@twitch.tv
     signingkey = 0x3AB557CAC5BF3B06
 
 [core]
-    editor = vim
+    editor = nvim
     whitespace = trailing-space,space-before-tab,tab-in-indent
 
 [alias]
     ap = add -p
     gl = log --graph --decorate --pretty=oneline --abbrev-commit --all --date-order
-    glb = log --graph --decorate --pretty=oneline --abbrev-commit
+    glb = log --graph --decorate --pretty=oneline --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     gla = !trap "" 13 && git log --graph --oneline --decorate --all $(git reflog | awk '{print $1}')
     b = branch
     d = diff
@@ -18,12 +18,16 @@
     st = status -sb
     ci = commit
     co = checkout
-    up = checkout
+    up = pull --rebase --autostash
     ff = merge --ff-only
+  purr = pull --rebase --autostash
+  mend = commit --amend --no-edit
+  mendedit = commit --amend
+
 
 [merge]
     stat = False
-    tool = kdiff3
+    tool = vimdiff
 
 #[mergetool "kdiff3"]
 #    path = /Users/pkoch/Applications/kdiff3.app/Contents/MacOS/kdiff3
@@ -53,5 +57,11 @@
     autosquash = true
 [commit]
 	gpgsign = true
+	template = /Users/schultjo/.git-commit-template.txt
+	cleanup = strip
 [gpg]
-	program = gpg2
+	program = gpg
+[url "https://code.justin.tv:"]
+	insteadOf = git@code.justin.tv:
+[pull]
+	rebase = true

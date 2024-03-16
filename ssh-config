@@ -1,21 +1,25 @@
- Host spinnaker-start
-   HostName spinnaker-dev.ads.internal.justin.tv
-   IdentityFile ~/.ssh/id_rsa
-   ControlMaster yes
-   ControlPath ~/.ssh/spinnaker-tunnel.ctl
-   RequestTTY no
-   LocalForward 9000 127.0.0.1:9000
-   LocalForward 8084 127.0.0.1:8084
-   LocalForward 8087 127.0.0.1:8087
-   User ubuntu
+Host *
+    PubkeyAcceptedKeyTypes +ssh-rsa-cert-v01@openssh.com
 
- Host spinnaker-stop
-   HostName spinnaker-dev.ads.internal.justin.tv
-   IdentityFile ~/.ssh/id_rsa
-   ControlPath ~/.ssh/spinnaker-tunnel.ctl
-   RequestTTY no
+Host ssm-jumpbox.*
+    ProxyCommand sh -c "aws ssm start-session --target $($HOME/.toolbox/bin/spiessh %h) --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
 
-Host awsdev
-	Hostname 52.24.134.249
-	User ubuntu
-	IdentityFile ~/.ssh/amazon-ssh-key.pem
+host github.com
+  IdentityFile ~/.ssh/id_rsa
+  HostName github.com
+  User git
+
+host github.com-ajaxify
+  IdentityFile ~/.ssh/id_rsa_ajaxify
+  HostName github.com
+  User git
+
+Host i-* mi-*
+ ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
+
+host *
+ IdentityFile ~/.ssh/id_rsa
+
+Host awsdev graviton
+ Hostname dev-dsk-schultjo-2a-a5ccd215.us-west-2.amazon.com
+ IdentityFile ~/.ssh/amazon-ssh-key.pem

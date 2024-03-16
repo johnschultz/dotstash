@@ -73,8 +73,6 @@ if ! [ -z $PS1 ]; then
     shopt -s histreedit   # Edit failled substitutions
 fi
 
-export HOMEBREW_GITHUB_API_TOKEN=3869ca5b83732325c46088fa80675f14ebe492b5
-
 export GOPATH=~/go
 #export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export PATH=$PATH:$GOPATH/bin # Add GOPATH to PATH for scripting
