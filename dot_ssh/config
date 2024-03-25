@@ -1,0 +1,19 @@
+Host github.com
+  IdentityFile ~/.ssh/id_rsa
+  HostName github.com
+  User git
+
+Host github.com-ajaxify
+  IdentityFile ~/.ssh/id_rsa_ajaxify
+  HostName github.com
+  User git
+
+Host i-* mi-*
+  ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
+
+Host *
+  IdentityFile ~/.ssh/id_rsa
+
+Host awsdev graviton
+  Hostname dev-dsk-schultjo-2a-a5ccd215.us-west-2.amazon.com
+  IdentityFile ~/.ssh/amazon-ssh-key.pem

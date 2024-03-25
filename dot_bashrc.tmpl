@@ -1,0 +1,40 @@
+#.bashrc
+
+{{- if eq .chezmoi.os "linux" }}
+# Linux Specific Configuration
+BREW_HOME="/home/linuxbrew/.linuxbrew"
+
+{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+# WSL-specific configuration
+eval "$($BREW_HOME/bin/brew shellenv)"
+
+{{-   end }}
+{{ end }}
+{{- if eq .chezmoi.os "Darwin" }}
+# MacOS Specific Configuration
+BREW_HOME="/home/bin"
+eval "$($BREW_HOME/brew shellenv)"
+{{- end }}
+
+# Autoload ssh-agent
+if ! ps aux | grep ssh-agent | grep `whoami` | grep -v grep > /dev/null; then
+  eval $(ssh-agent)
+  ssh-add 2> /dev/null
+fi
+
+# Enable NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$BREW_HOME/opt/nvm/nvm.sh" ] && \. "$BREW_HOME/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "$BREW_HOME/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$BREW_HOME/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# Enable starship for prompt customization
+eval "$(starship init bash)"
+
+# Aliases
+alias bb='brazil-build'
+
+# Env
+export EDITOR=nvim
+export GPG_TTY=$(tty)
+export XDG_CONFIG_HOME=$HOME/.config/
+

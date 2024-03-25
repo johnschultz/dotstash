@@ -1,0 +1,8 @@
+#.bash_profile
+
+# bash_profile is executed on every LOGIN shell. On OSX though, we get a login
+# shell for every shell, so for now, let's simplify things and just source the
+# .bashrc.
+if [ -f $HOME/.bashrc ]; then
+        source $HOME/.bashrc
+fi
