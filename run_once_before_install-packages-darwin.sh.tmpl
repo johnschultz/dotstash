@@ -3,7 +3,19 @@
 #!/bin/bash
 
 brew bundle --no-lock --file=/dev/stdin <<EOF
+tap "homebrew/bundle"
+tap "jesseduffield/lazygit"
+brew "chezmoi"
+brew "gcc"
 brew "git"
-cask "google-chrome"
+brew "golangci-lint"
+brew "neovim"
+brew "nvm"
+brew "python@3.12"
+brew "pre-commit"
+brew "sqlc"
+brew "starship"
+brew "zsh"
+brew "jesseduffield/lazygit/lazygit"
 EOF
 {{ end -}}
