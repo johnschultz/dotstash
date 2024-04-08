@@ -16,3 +16,6 @@ compinit
 # End of lines added by compinstall
 
 eval "$(starship init zsh)"
+
+# Setup Frum (ruby version manager)
+eval "$(frum init)"
