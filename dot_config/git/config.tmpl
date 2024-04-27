@@ -1,6 +1,6 @@
 [user]
     name = Johnathon Schultz
-    email = schultjo@twitch.tv
+    email = {{ .email | quote }}
 
 [core]
     editor = nvim
@@ -52,6 +52,7 @@
     autosquash = true
 
 [commit]
+  template = ~/.config/git/git-commit-template.txt
 	cleanup = strip
 
 [pull]
