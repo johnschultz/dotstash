@@ -1,0 +1,45 @@
+#.zshrc
+
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=100000
+setopt autocd beep nomatch notify
+unsetopt extendedglob
+bindkey -e
+# End of lines configured by zsh-newuser-install
+
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/jschultz/.zshrc'
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+{{ if eq .chezmoi.os "linux" -}}
+# Linux Specific Configuration
+BREW_HOME="/home/linuxbrew/.linuxbrew"
+{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+# WSL-specific configuration
+eval "$($BREW_HOME/bin/brew shellenv)"
+{{  end -}}
+{{ end -}}
+
+{{- if eq .chezmoi.os "darwin" }}
+# MacOS Specific Configuration
+BREW_HOME="/opt/homebrew/bin"
+eval "$($BREW_HOME/brew shellenv)"
+export PATH=$PATH:/Users/schultjo/.toolbox/bin
+{{- end }}
+
+# Init Starship for prompt customization
+eval "$(starship init zsh)"
+
+# Init Frum (ruby version manager)
+eval "$(frum init)"
+
+# Work Aliases
+{{- if .email | contains "amazon.com" }}
+alias bb=brazil-build
+alias b=brazil
+alias bbr=brazil-recursive-command brazil-build
+{{- end}}
