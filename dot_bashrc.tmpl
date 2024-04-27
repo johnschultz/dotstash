@@ -7,13 +7,14 @@ BREW_HOME="/home/linuxbrew/.linuxbrew"
 {{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
 # WSL-specific configuration
 eval "$($BREW_HOME/bin/brew shellenv)"
-
 {{-   end }}
-{{ end }}
+{{ end -}}
+
 {{- if eq .chezmoi.os "Darwin" }}
 # MacOS Specific Configuration
-BREW_HOME="/home/bin"
+BREW_HOME="/opt/homebrew/bin/"
 eval "$($BREW_HOME/brew shellenv)"
+source "~/.brazil_completion/bash_completion"
 {{- end }}
 
 # Autoload ssh-agent
