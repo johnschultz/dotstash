@@ -1,19 +1,59 @@
-Host github.com
-  IdentityFile ~/.ssh/id_rsa
+Host personalgithub
   HostName github.com
   User git
+  IdentityFile ~/.ssh/johnschultz.pub
+  IdentitiesOnly yes
 
-Host github.com-ajaxify
-  IdentityFile ~/.ssh/id_rsa_ajaxify
+Host nofugithub
   HostName github.com
   User git
-
-Host i-* mi-*
-  ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
-
-Host *
-  IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/ajaxify.pub
+  IdentitiesOnly yes
 
 Host awsdev graviton
   Hostname dev-dsk-schultjo-2a-a5ccd215.us-west-2.amazon.com
-  IdentityFile ~/.ssh/amazon-ssh-key.pem
+  ProxyCommand=wssh proxy %h
+
+Host *
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+
+### Start of WSSH Config Block ###
+
+##############################################################################################
+### ****                             IMPORTANT NOTICE                                 **** ###
+### **** PLEASE DO NOT PUT ANY CUSTOM CONFIGURATIONS IN BETWEEN THE WSSH CONFIG BLOCK **** ###
+### ****                WHEN WSSH UNINSTALLS THIS BLOCK WILL BE REMOVED              **** ###
+#############################################################################################
+
+## Start of CNAME and SSH alias configs - PLEASE DO NOT EDIT THIS LINE ##
+
+## End of CNAME and SSH alias configs ##
+
+# The following config is added by WSSH setup script to configure off-VPN dev-dsk access.
+Host dev-dsk-*.amazon.com
+  ProxyCommand=/usr/local/bin/wssh proxy %h
+  ServerAliveInterval 15
+  ServerAliveCountMax 44
+  User schultjo
+
+
+# The following config is added by WSSH setup script to configure off-VPN SSH access.
+Host *.corp.amazon.com
+  ProxyCommand=/usr/local/bin/wssh proxy %h
+  ServerAliveInterval 15
+  ServerAliveCountMax 44
+  User schultjo
+
+
+# The following config is added by WSSH setup script to configure off-VPN Git access.
+Host git.amazon.com
+  ProxyCommand=/usr/local/bin/wssh proxy %h --port=%p
+  User schultjo
+
+Host github.audible.com
+  ProxyCommand=/usr/local/bin/wssh proxy %h --port=%p
+  User schultjo
+
+
+Match all
+### End of WSSH Config Block ###
