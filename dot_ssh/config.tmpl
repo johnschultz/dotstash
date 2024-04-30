@@ -1,3 +1,4 @@
+# Would be great if I had a script to update the chezmoi .git/config on apply
 Host personalgithub
   HostName github.com
   User git
@@ -10,12 +11,17 @@ Host nofugithub
   IdentityFile ~/.ssh/ajaxify.pub
   IdentitiesOnly yes
 
+{{- if eq .chezmoi.os "darwin" }}
+# Setup 1Password SSH Agent
+Host *
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+{{- end }}
+
+{{ if contains .email "amazon.com" -}}
+# Amazon specific configuration
 Host awsdev graviton
   Hostname dev-dsk-schultjo-2a-a5ccd215.us-west-2.amazon.com
   ProxyCommand=wssh proxy %h
-
-Host *
-  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
 ### Start of WSSH Config Block ###
 
@@ -57,3 +63,4 @@ Host github.audible.com
 
 Match all
 ### End of WSSH Config Block ###
+{{- end }}

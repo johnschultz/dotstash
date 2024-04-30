@@ -18,13 +18,15 @@ compinit
 {{ if eq .chezmoi.os "linux" -}}
 # Linux Specific Configuration
 BREW_HOME="/home/linuxbrew/.linuxbrew"
-{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # WSL-specific configuration
 eval "$($BREW_HOME/bin/brew shellenv)"
-{{  end -}}
-{{ end -}}
+alias ssh='ssh.exe'
+alias ssh-add='ssh-add.exe'
+{{-  end }}
+{{- end }}
 
-{{- if eq .chezmoi.os "darwin" }}
+{{ if eq .chezmoi.os "darwin" -}}
 # MacOS Specific Configuration
 BREW_HOME="/opt/homebrew/bin"
 eval "$($BREW_HOME/brew shellenv)"
