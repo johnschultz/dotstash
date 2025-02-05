@@ -19,12 +19,6 @@ eval "$($BREW_HOME/brew shellenv)"
 source "~/.brazil_completion/bash_completion"
 {{- end }}
 
-# Autoload ssh-agent
-if ! ps aux | grep ssh-agent | grep `whoami` | grep -v grep > /dev/null; then
-  eval $(ssh-agent)
-  ssh-add 2> /dev/null
-fi
-
 # Enable NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$BREW_HOME/opt/nvm/nvm.sh" ] && \. "$BREW_HOME/opt/nvm/nvm.sh"  # This loads nvm
@@ -36,14 +30,14 @@ eval "$(frum init)"
 # Enable starship for prompt customization
 eval "$(starship init bash)"
 
-# Aliases
-alias bb='brazil-build'
-
 # Env
 export EDITOR=nvim
 export GPG_TTY=$(tty)
 export XDG_CONFIG_HOME=$HOME/.config/
 
-# Path
+{{ if .email | contains "amazon.com" -}}
+# Amazon specific configuration
 export PATH=$PATH:/Users/schultjo/.toolbox/bin
 
+alias bb='brazil-build'
+{{- end }}
