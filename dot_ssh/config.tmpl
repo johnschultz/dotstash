@@ -11,16 +11,20 @@ Host nofugithub
   IdentityFile ~/.ssh/ajaxify.pub
   IdentitiesOnly yes
 
-{{- if eq .chezmoi.os "darwin" }}
+{{ if eq .chezmoi.os "darwin" }}
 # Setup 1Password SSH Agent
 Host *
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 {{- end }}
 
-{{ if contains .email "amazon.com" -}}
+{{ if contains "amazon.com" .email  -}}
 # Amazon specific configuration
 Host awsdev graviton
   Hostname dev-dsk-schultjo-2a-a5ccd215.us-west-2.amazon.com
+  ProxyCommand=wssh proxy %h
+
+Host dtf-dev
+  Hostname dev-dsk-schultjo-2a-ba6bfbbf.us-west-2.amazon.com
   ProxyCommand=wssh proxy %h
 
 ### Start of WSSH Config Block ###
