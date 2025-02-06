@@ -1,5 +1,4 @@
 #.bashrc
-
 {{- if eq .chezmoi.os "linux" }}
 # Linux Specific Configuration
 BREW_HOME="/home/linuxbrew/.linuxbrew"
@@ -12,11 +11,10 @@ alias ssh-add='ssh-add.exe'
 {{-   end }}
 {{ end -}}
 
-{{- if eq .chezmoi.os "Darwin" }}
+{{- if eq .chezmoi.os "darwin" }}
 # MacOS Specific Configuration
 BREW_HOME="/opt/homebrew/bin/"
 eval "$($BREW_HOME/brew shellenv)"
-source "~/.brazil_completion/bash_completion"
 {{- end }}
 
 # Enable NVM
@@ -37,7 +35,8 @@ export XDG_CONFIG_HOME=$HOME/.config/
 
 {{ if .email | contains "amazon.com" -}}
 # Amazon specific configuration
-export PATH=$PATH:/Users/schultjo/.toolbox/bin
-
+export PATH=$PATH:/Users/{{.chezmoi.username}}/.toolbox/bin
+source "~/.brazil_completion/bash_completion"
 alias bb='brazil-build'
 {{- end }}
+
