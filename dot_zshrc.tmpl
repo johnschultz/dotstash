@@ -20,7 +20,6 @@ compinit
 BREW_HOME="/home/linuxbrew/.linuxbrew"
 {{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # WSL-specific configuration
-eval "$($BREW_HOME/bin/brew shellenv)"
 alias ssh='ssh.exe'
 alias ssh-add='ssh-add.exe'
 {{-  end }}
@@ -31,6 +30,9 @@ alias ssh-add='ssh-add.exe'
 BREW_HOME="/opt/homebrew/bin"
 eval "$($BREW_HOME/brew shellenv)"
 {{- end }}
+
+# Init brew
+eval "$($BREW_HOME/bin/brew shellenv)"
 
 # Init Starship for prompt customization
 eval "$(starship init zsh)"
