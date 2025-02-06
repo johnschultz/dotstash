@@ -1,5 +1,5 @@
 {{- /* If we're on Mac or WSL then install packages using brew */ -}}
-{{- if or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) -}}
+{{- if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
 #!/bin/bash
 
 brew bundle --no-lock --file=/dev/stdin <<EOF
