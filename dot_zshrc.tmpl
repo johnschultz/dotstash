@@ -42,7 +42,7 @@ eval "$(frum init)"
 
 # Work Aliases
 {{- if .email | contains "amazon.com" }}
-export PATH=$PATH:/Users/schultjo/.toolbox/bin
+export PATH=$PATH:{{.chezmoi.homeDir}}/.toolbox/bin
 alias bb=brazil-build
 alias b=brazil
 alias bbr=brazil-recursive-command brazil-build
