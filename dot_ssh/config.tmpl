@@ -17,7 +17,7 @@ Host *
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 {{- end }}
 
-{{ if and (contains "amazon.com" .email) (eq .chezmoi.os "linux")  -}}
+{{ if and (contains "amazon.com" .email) (eq .chezmoi.os "darwin")  -}}
 # Amazon specific configuration
 Host awsdev graviton
   Hostname dev-dsk-schultjo-2a-a5ccd215.us-west-2.amazon.com
