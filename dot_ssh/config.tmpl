@@ -68,3 +68,6 @@ Host github.audible.com
 Match all
 ### End of WSSH Config Block ###
 {{- end }}
+{{ if and (contains "amazon.com" .email) (eq .chezmoi.os "linux")  -}}
+Include /home/{{.chezmoi.username}}/.ssh/bastions-config
+{{ end }}
