@@ -17,7 +17,7 @@ Host *
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 {{- end }}
 
-{{ if contains "amazon.com" .email  -}}
+{{ if and (contains "amazon.com" .email) (eq .chezmoi.os "linux")  -}}
 # Amazon specific configuration
 Host awsdev graviton
   Hostname dev-dsk-schultjo-2a-a5ccd215.us-west-2.amazon.com
@@ -44,7 +44,7 @@ Host dev-dsk-*.amazon.com
   ProxyCommand=/usr/local/bin/wssh proxy %h
   ServerAliveInterval 15
   ServerAliveCountMax 44
-  User schultjo
+  User {{.chezmoi.username}}
 
 
 # The following config is added by WSSH setup script to configure off-VPN SSH access.
@@ -52,17 +52,17 @@ Host *.corp.amazon.com
   ProxyCommand=/usr/local/bin/wssh proxy %h
   ServerAliveInterval 15
   ServerAliveCountMax 44
-  User schultjo
+  User {{.chezmoi.username}}
 
 
 # The following config is added by WSSH setup script to configure off-VPN Git access.
 Host git.amazon.com
   ProxyCommand=/usr/local/bin/wssh proxy %h --port=%p
-  User schultjo
+  User {{.chezmoi.username}}
 
 Host github.audible.com
   ProxyCommand=/usr/local/bin/wssh proxy %h --port=%p
-  User schultjo
+  User {{.chezmoi.username}}
 
 
 Match all
