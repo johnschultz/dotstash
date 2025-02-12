@@ -22,10 +22,14 @@ Host *
 Host awsdev graviton
   Hostname dev-dsk-schultjo-2a-a5ccd215.us-west-2.amazon.com
   ProxyCommand=wssh proxy %h
+  ServerAliveInterval 15
+  ServerAliveCountMax 44
 
 Host dtf-dev
   Hostname dev-dsk-schultjo-2a-ba6bfbbf.us-west-2.amazon.com
   ProxyCommand=wssh proxy %h
+  ServerAliveInterval 15
+  ServerAliveCountMax 44
 
 ### Start of WSSH Config Block ###
 
