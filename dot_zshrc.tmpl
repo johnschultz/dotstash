@@ -25,13 +25,13 @@ alias ssh-add='ssh-add.exe'
 {{-  end }}
 {{- end }}
 
-{{ if eq .chezmoi.os "darwin" -}}
+{{- if eq .chezmoi.os "darwin" }}
 # MacOS Specific Configuration
 BREW_HOME="/opt/homebrew/bin"
 {{- end }}
 
 # Init brew
-eval "$($BREW_HOME/brew shellenv)"
+eval "$($BREW_HOME/bin/brew shellenv)"
 
 # Init Starship for prompt customization
 eval "$(starship init zsh)"
