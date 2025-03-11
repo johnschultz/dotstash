@@ -1,4 +1,8 @@
 #.zshrc
+{{- if .email | contains "amazon.com" }}
+# Amazon Q pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
+{{- end }}
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
@@ -47,4 +51,7 @@ alias b=brazil
 alias bbr=brazil-recursive-command brazil-build
 alias register_with_aaa="/apollo/env/AAAWorkspaceSupport/bin/register_with_aaa.py"
 export AWS_EC2_METADATA_DISABLED=false
+#
+# Amazon Q post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
 {{- end}}
