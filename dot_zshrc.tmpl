@@ -2,6 +2,7 @@
 {{- if .email | contains "amazon.com" }}
 # Amazon Q pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
+[[ -f "${HOME}/.local/share/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/.local/share/amazon-q/shell/zshrc.pre.zsh"
 {{- end }}
 
 # Lines configured by zsh-newuser-install
@@ -26,7 +27,7 @@ BREW_HOME="/home/linuxbrew/.linuxbrew"
 # WSL-specific configuration
 alias ssh='ssh.exe'
 alias ssh-add='ssh-add.exe'
-{{-  end }}
+{{- end }}
 {{- end }}
 
 {{- if eq .chezmoi.os "darwin" }}
@@ -43,15 +44,21 @@ eval "$(starship init zsh)"
 # Init Frum (ruby version manager)
 eval "$(frum init)"
 
+# Setup NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$BREW_HOME/opt/nvm/nvm.sh" ] && . "$BREW_HOME/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "$BREW_HOME/opt/nvm/etc/bash_completion.d/nvm" ] && . "$BREW_HOME/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
 # Work Aliases
 {{- if .email | contains "amazon.com" }}
 export PATH=$PATH:{{.chezmoi.homeDir}}/.toolbox/bin
 alias bb=brazil-build
 alias b=brazil
-alias bbr=brazil-recursive-command brazil-build
+alias bbr=brazil-recursive-cmd brazil-build
 alias register_with_aaa="/apollo/env/AAAWorkspaceSupport/bin/register_with_aaa.py"
 export AWS_EC2_METADATA_DISABLED=false
-#
+
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+[[ -f "${HOME}/.local/share/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/.local/share/amazon-q/shell/zshrc.post.zsh"
 {{- end}}
