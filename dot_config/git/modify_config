@@ -1,0 +1,12 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* Appended so managed values override older inline settings (git: last wins). Tools like
+       `git lfs install` keep writing to this file. */ -}}
+{{- $loader := "# Managed settings live in managed.gitconfig; chezmoi only ensures this include.\n[include]\n    path = managed.gitconfig\n" -}}
+{{- $in := .chezmoi.stdin -}}
+{{- if contains "managed.gitconfig" $in -}}
+{{ $in }}
+{{- else -}}
+{{ if $in }}{{ $in | trimSuffix "\n" }}
+
+{{ end }}{{ $loader }}
+{{- end -}}

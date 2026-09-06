@@ -1,0 +1,5 @@
+#!/bin/sh
+# mise config hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+# Non-fatal: one unavailable build must not fail every future apply.
+export PATH="$HOME/.local/bin:$PATH"
+mise install --yes || echo "mise install reported failures; see above"

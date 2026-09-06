@@ -1,0 +1,3 @@
+if [ -x "{{ .brewPrefix }}/bin/brew" ]; then
+  eval "$("{{ .brewPrefix }}/bin/brew" shellenv)"
+fi

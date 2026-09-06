@@ -1,0 +1,26 @@
+# Repo documentation, not dotfiles.
+README.md
+CLAUDE.md
+
+{{ if not .mac -}}
+Library
+{{- end }}
+
+{{ if not .brewPrefix -}}
+.config/homebrew
+.config/zsh/20-brew.zsh
+.config/bash/20-brew.bash
+00-install-brew.sh
+20-brew-bundle.sh
+{{- end }}
+
+{{ if not .work -}}
+.config/zsh/70-work.zsh
+.config/bash/70-work.bash
+.ssh/config.d/20-work.conf
+{{- end }}
+
+{{ if not .wsl -}}
+.config/zsh/80-wsl.zsh
+.config/bash/80-wsl.bash
+{{- end }}

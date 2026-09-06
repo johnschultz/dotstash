@@ -1,0 +1,23 @@
+{{- if .cloudDesktop -}}
+Include bastions-config
+
+{{ end -}}
+# Amazon hosts authenticate with the Midway-issued key. `Match host` sees the HostName set by
+# aliases in 00-local.conf, so an alias only needs a HostName line. No IdentitiesOnly, so a
+# forwarded agent still works on hosts that have no id_ecdsa.
+Match host dev-dsk-*.amazon.com,*.corp.amazon.com
+  User {{ .chezmoi.username }}
+  IdentityFile ~/.ssh/id_ecdsa
+  ServerAliveInterval 15
+  ServerAliveCountMax 44
+{{- if .mac }}
+  ProxyCommand /usr/local/bin/wssh proxy %h
+{{- end }}
+
+# Forward an agent only to dev desktops, never to shared corp hosts.
+Match host dev-dsk-*.amazon.com
+{{- if .mac }}
+  ForwardAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+{{- else }}
+  ForwardAgent yes
+{{- end }}

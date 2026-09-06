@@ -1,0 +1,1 @@
+# ~/.zprofile is intentionally NOT managed by chezmoi. Login-shell setup is in ~/.zshrc.

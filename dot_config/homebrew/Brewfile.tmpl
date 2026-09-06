@@ -1,0 +1,17 @@
+# Only things mise cannot install: system libraries and macOS apps.
+brew "git"
+brew "zsh"
+brew "tmux"
+brew "gcc"
+brew "ffmpeg"
+brew "graphviz"
+brew "unison"
+{{ if .mac -}}
+cask "1password"
+cask "1password-cli"
+cask "raycast"
+cask "obsidian"
+cask "google-drive"
+cask "cmux"
+cask "ghostty"
+{{ end -}}

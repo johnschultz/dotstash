@@ -1,0 +1,16 @@
+# This repo is public. gitleaks catches secrets; no-internal-hosts catches Amazon-internal
+# hostnames and URLs that are not secrets. gitleaks is installed by mise; run `pre-commit install` once.
+repos:
+  - repo: local
+    hooks:
+      - id: gitleaks
+        name: gitleaks
+        entry: gitleaks git --pre-commit --redact --staged
+        language: system
+        pass_filenames: false
+      - id: no-internal-hosts
+        name: no Amazon-internal hostnames or URLs
+        entry: 'dev-dsk-[a-z0-9-]+\.|issues\.amazon|git\.amazon\.com|audible'
+        language: pygrep
+        args: [-i]
+        exclude: ^\.pre-commit-config\.yaml$

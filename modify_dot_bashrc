@@ -1,0 +1,13 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $loader := "# Managed config lives in ~/.config/bash/*.bash; chezmoi only ensures this loader line.\nfor f in \"$HOME\"/.config/bash/*.bash; do [ -r \"$f\" ] && . \"$f\"; done\n" -}}
+{{- $in := .chezmoi.stdin -}}
+{{- if contains "/.config/bash/*.bash" $in -}}
+{{ $in }}
+{{- else if regexMatch `bashrc\.pre\.bash` $in -}}
+{{-   $pre := regexFind `(?s)^.*bashrc\.pre\.bash[^\n]*\n` $in -}}
+{{ $pre }}
+{{ $loader }}{{ trimPrefix $pre $in }}
+{{- else -}}
+{{ $loader }}{{ if $in }}
+{{ $in }}{{ end }}
+{{- end -}}
