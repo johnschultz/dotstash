@@ -14,7 +14,7 @@
 # BREAKING CHANGE: a commit that has a footer BREAKING CHANGE:, or appends a !
 # after the type/scope, introduces a breaking API change (correlating with MAJOR
 # in semantic versioning). A BREAKING CHANGE can be part of commits of any type.
-# Example: issue https://issues.amazon.com/KEYSTONEDEV-23 BREAKING CHANGE!
+# Example: issue PROJECT-123 BREAKING CHANGE!
 
 
 # --- COMMIT END ---

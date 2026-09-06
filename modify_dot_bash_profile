@@ -1,0 +1,14 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* macOS shells are login shells, so ~/.bash_profile only needs to defer to ~/.bashrc. */ -}}
+{{- $loader := "[ -f \"$HOME/.bashrc\" ] && . \"$HOME/.bashrc\"\n" -}}
+{{- $in := .chezmoi.stdin -}}
+{{- if contains ".bashrc" $in -}}
+{{ $in }}
+{{- else if regexMatch `bash_profile\.pre\.bash` $in -}}
+{{-   $pre := regexFind `(?s)^.*bash_profile\.pre\.bash[^\n]*\n` $in -}}
+{{ $pre }}
+{{ $loader }}{{ trimPrefix $pre $in }}
+{{- else -}}
+{{ $loader }}{{ if $in }}
+{{ $in }}{{ end }}
+{{- end -}}

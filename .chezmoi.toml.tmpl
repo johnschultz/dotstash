@@ -1,7 +1,31 @@
-{{ $email := promptStringOnce . "email" "Email address" -}}
+{{- /* Machine facts are computed once here; templates only test the booleans below. */ -}}
+{{- $email := promptStringOnce . "email" "Email address" -}}
+{{- $work := promptBoolOnce . "work" "Work machine" (contains "amazon.com" $email) -}}
+{{- $mac := eq .chezmoi.os "darwin" -}}
+{{- $linux := eq .chezmoi.os "linux" -}}
+{{- $wsl := false -}}
+{{- if $linux -}}
+{{-   $wsl = .chezmoi.kernel.osrelease | lower | contains "microsoft" -}}
+{{- end -}}
+{{- $cloudDesktop := and $linux $work (not $wsl) -}}
+{{- /* Homebrew: macOS, or x86_64 Linux. Linuxbrew has no arm64 builds, so brew is skipped there. */ -}}
+{{- $brewPrefix := "" -}}
+{{- if and $mac (eq .chezmoi.arch "arm64") -}}
+{{-   $brewPrefix = "/opt/homebrew" -}}
+{{- else if $mac -}}
+{{-   $brewPrefix = "/usr/local" -}}
+{{- else if and $linux (eq .chezmoi.arch "amd64") -}}
+{{-   $brewPrefix = "/home/linuxbrew/.linuxbrew" -}}
+{{- end -}}
 
 [data]
   email = {{ $email | quote }}
+  work = {{ $work }}
+  mac = {{ $mac }}
+  linux = {{ $linux }}
+  wsl = {{ $wsl }}
+  cloudDesktop = {{ $cloudDesktop }}
+  brewPrefix = {{ $brewPrefix | quote }}
 
 [merge]
   command = "nvim"

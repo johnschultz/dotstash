@@ -1,0 +1,43 @@
+{{- /* 1Password agent socket. Cloud desktops have none and use the agent forwarded from the laptop. */ -}}
+{{- $agent := "" -}}
+{{- if .mac }}{{ $agent = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" }}
+{{- else if not .cloudDesktop }}{{ $agent = "~/.1password/agent.sock" }}{{ end -}}
+# Personal hosts authenticate through the 1Password SSH agent.
+Host personalgithub
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/johnschultz.pub
+  IdentitiesOnly yes
+{{- if $agent }}
+  IdentityAgent "{{ $agent }}"
+{{- end }}
+
+Host nofugithub
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/ajaxify.pub
+  IdentitiesOnly yes
+{{- if $agent }}
+  IdentityAgent "{{ $agent }}"
+{{- end }}
+
+Host hexos
+  HostName hexos.local
+  Port 30143
+  User git
+  IdentityFile ~/.ssh/johnschultz.pub
+  IdentitiesOnly yes
+{{- if $agent }}
+  IdentityAgent "{{ $agent }}"
+{{- end }}
+  ForwardAgent yes
+
+Host hadron quark
+  HostName %h.local
+  User jschultz
+  IdentityFile ~/.ssh/johnschultz.pub
+  IdentitiesOnly yes
+{{- if $agent }}
+  IdentityAgent "{{ $agent }}"
+{{- end }}
+  ForwardAgent yes

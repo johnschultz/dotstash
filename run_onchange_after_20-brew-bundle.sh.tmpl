@@ -1,0 +1,7 @@
+#!/bin/bash
+# Brewfile hash: {{ includeTemplate "dot_config/homebrew/Brewfile.tmpl" . | sha256sum }}
+# Non-fatal: one cask already installed from a .dmg must not fail every future apply.
+BREW="{{ .brewPrefix }}/bin/brew"
+[ -x "$BREW" ] || { echo "brew not found at $BREW; skipping bundle"; exit 0; }
+eval "$("$BREW" shellenv)"
+brew bundle --file="$HOME/.config/homebrew/Brewfile" || echo "brew bundle reported failures; see above"

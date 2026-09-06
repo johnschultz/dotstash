@@ -1,0 +1,30 @@
+# Cross-platform tool installs. `mise install` on any OS/arch fetches everything below.
+# Brew is only used for macOS casks and system libraries (see ~/.config/homebrew/Brewfile).
+[settings]
+# Honour .nvmrc / .python-version / .ruby-version per project, as nvm and frum did.
+idiomatic_version_file_enable_tools = ["node", "python", "ruby"]
+
+[tools]
+node = "22"
+python = ["3.12", "3.11", "3.10", "3.9", "3.8"]
+go = "latest"
+rust = "latest"
+
+chezmoi = "latest"
+starship = "latest"
+neovim = "latest"
+lazygit = "latest"
+ripgrep = "latest"
+fd = "latest"
+fzf = "latest"
+gum = "latest"
+uv = "latest"
+git-lfs = "latest"
+gitleaks = "latest"
+pre-commit = "latest"
+golangci-lint = "latest"
+sqlc = "latest"
+aws-sam-cli = "latest"
+yt-dlp = "latest"
+"go:golang.org/x/tools/gopls" = "latest"
+"go:honnef.co/go/tools/cmd/staticcheck" = "latest"

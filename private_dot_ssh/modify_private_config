@@ -1,0 +1,10 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* Include must precede any Host block, so it is prepended. WSSH/devspaces keep editing the rest. */ -}}
+{{- $loader := "# Managed hosts live in ~/.ssh/config.d/; chezmoi only ensures this Include. Local aliases go in config.d/00-local.conf.\nInclude config.d/*.conf\n" -}}
+{{- $in := .chezmoi.stdin -}}
+{{- if contains "Include config.d/*.conf" $in -}}
+{{ $in }}
+{{- else -}}
+{{ $loader }}{{ if $in }}
+{{ $in }}{{ end }}
+{{- end -}}

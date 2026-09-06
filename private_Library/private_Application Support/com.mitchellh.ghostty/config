@@ -1,0 +1,2 @@
+# Ghostty config (also used by cmux). Run `ghostty +show-config --default --docs` for options.
+macos-option-as-alt = true

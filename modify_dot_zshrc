@@ -1,0 +1,15 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* Ensures the drop-in loader is present; everything else in ~/.zshrc is left to installers.
+       The loader goes after a Kiro/Amazon Q pre-block when there is one, so their ordering checks pass. */ -}}
+{{- $loader := "# Managed config lives in ~/.config/zsh/*.zsh; chezmoi only ensures this loader line.\nfor f in \"$HOME\"/.config/zsh/*.zsh(N); do source \"$f\"; done\n" -}}
+{{- $in := .chezmoi.stdin -}}
+{{- if contains "/.config/zsh/*.zsh" $in -}}
+{{ $in }}
+{{- else if regexMatch `zshrc\.pre\.zsh` $in -}}
+{{-   $pre := regexFind `(?s)^.*zshrc\.pre\.zsh[^\n]*\n` $in -}}
+{{ $pre }}
+{{ $loader }}{{ trimPrefix $pre $in }}
+{{- else -}}
+{{ $loader }}{{ if $in }}
+{{ $in }}{{ end }}
+{{- end -}}
