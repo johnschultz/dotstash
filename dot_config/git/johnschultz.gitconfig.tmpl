@@ -1,0 +1,26 @@
+# Included by managed.gitconfig for GitHub remotes. Identity is the GitHub noreply address so
+# nothing personal or work-related lands in public history.
+[user]
+    name = Johnathon Schultz
+    email = 5789141+johnschultz@users.noreply.github.com
+    signingkey = ~/.ssh/johnschultz.pub
+
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    allowedSignersFile = ~/.config/git/allowed_signers
+{{- if .mac }}
+    # macOS: the default agent is launchd's, so sign through 1Password directly.
+    program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+{{- end }}
+{{- /* Elsewhere ssh-keygen signs via SSH_AUTH_SOCK: the 1Password agent on personal Linux,
+       or the agent forwarded from the laptop on cloud desktops. */}}
+
+{{ if not .wsl -}}
+[commit]
+    gpgsign = true
+
+[tag]
+    gpgsign = true
+{{- end }}

@@ -1,0 +1,9 @@
+# Identity for the ajaxify GitHub account (northernfreightunlimited repos). Pulls in the
+# shared signing settings, then overrides only who is committing and with which key.
+[include]
+    path = johnschultz.gitconfig
+
+[user]
+    name = Ajaxify
+    email = 78984825+ajaxify@users.noreply.github.com
+    signingkey = ~/.ssh/ajaxify.pub
