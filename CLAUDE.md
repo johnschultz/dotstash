@@ -64,6 +64,10 @@ Templates test only these booleans. `.chezmoiignore.tmpl` drops whole files per 
 
 Personal hosts (`10-personal.conf`) use the 1Password agent: the mac socket on macOS, `~/.1password/agent.sock` on personal Linux, and no `IdentityAgent` on cloud desktops so the agent forwarded from the laptop is used. Amazon hosts (`20-work.conf`) use `Match host` on the resolved hostname with `IdentityFile ~/.ssh/id_ecdsa` and no `IdentitiesOnly`, so aliases in the local `00-local.conf` only need a `HostName` line and a forwarded agent still works. Agent forwarding is scoped to `dev-dsk-*` only, never `*.corp.amazon.com`; on macOS it forwards the 1Password socket explicitly via `ForwardAgent <path>`.
 
+## Git identity
+
+`managed.gitconfig` sets the default `user.email` from the chezmoi prompt (the work address on work machines) and then uses `includeIf "hasconfig:remote.*.url:..."` to load `johnschultz.gitconfig` for any GitHub remote (`personalgithub`, `github.com`), then `ajaxify.gitconfig` for the ajaxify account (`nofugithub` alias, `github.com/northernfreightunlimited`, `github.com/ajaxify`); later includes win. `johnschultz.gitconfig` pins the johnschultz noreply identity, SSH signing with `~/.ssh/johnschultz.pub` (via 1Password's `op-ssh-sign` on macOS, via the agent elsewhere), and `commit.gpgsign` except on WSL. `ajaxify.gitconfig` overrides only name, email and signing key (`~/.ssh/ajaxify.pub`). `allowed_signers` lists both keys so `git log --show-signature` verifies locally. History was rewritten on 2026-09-06 to unify identities and sign every commit; the pre-rewrite bundle is at `~/.local/share/dotstash-pre-rewrite-backup.bundle`.
+
 ## Other conventions
 
 - Commit messages follow `dot_config/git/git-commit-template.txt`: lowercase imperative subject, ≤50 chars, no trailing period. Types in use: `feat:`, `fix:`, `add:`, `refactor:`.

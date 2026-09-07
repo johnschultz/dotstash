@@ -57,3 +57,24 @@
 
 [pull]
     rebase = true
+
+# GitHub remotes always use a GitHub identity and sign, whatever machine this is.
+# Prevents work emails leaking into personal repos (which is how this repo's history got mixed).
+# Later includes win, so the ajaxify-account rules come after the generic github.com ones.
+[includeIf "hasconfig:remote.*.url:git@personalgithub:*/**"]
+    path = johnschultz.gitconfig
+[includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
+    path = johnschultz.gitconfig
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+    path = johnschultz.gitconfig
+
+[includeIf "hasconfig:remote.*.url:git@nofugithub:*/**"]
+    path = ajaxify.gitconfig
+[includeIf "hasconfig:remote.*.url:git@github.com:northernfreightunlimited/**"]
+    path = ajaxify.gitconfig
+[includeIf "hasconfig:remote.*.url:https://github.com/northernfreightunlimited/**"]
+    path = ajaxify.gitconfig
+[includeIf "hasconfig:remote.*.url:git@github.com:ajaxify/**"]
+    path = ajaxify.gitconfig
+[includeIf "hasconfig:remote.*.url:https://github.com/ajaxify/**"]
+    path = ajaxify.gitconfig
