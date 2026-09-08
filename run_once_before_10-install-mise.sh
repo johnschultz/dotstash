@@ -1,6 +1,0 @@
-#!/bin/sh
-set -eu
-if ! command -v mise >/dev/null 2>&1 && [ ! -x "$HOME/.local/bin/mise" ]; then
-  echo "Installing mise"
-  curl -fsSL https://mise.run | sh
-fi

@@ -1,0 +1,8 @@
+#!/bin/bash
+# Runs on every apply (cheap check) so a failed install is retried next time instead of being
+# recorded as done. The Homebrew installer needs sudo; answer the password prompt if asked.
+if [ ! -x "{{ .brewPrefix }}/bin/brew" ]; then
+  echo "Homebrew not found at {{ .brewPrefix }}; installing (may prompt for your password)"
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+    || echo "WARNING: Homebrew install failed; brew bundle will be skipped until it succeeds"
+fi
