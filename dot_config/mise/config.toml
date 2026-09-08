@@ -6,7 +6,7 @@ idiomatic_version_file_enable_tools = ["node", "python", "ruby"]
 
 [tools]
 node = "22"
-python = ["3.12", "3.11", "3.10", "3.9", "3.8"]
+python = ["3.12", "3.11", "3.10", "3.9"]
 go = "latest"
 rust = "latest"
 
