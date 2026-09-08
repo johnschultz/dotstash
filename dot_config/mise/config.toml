@@ -26,5 +26,5 @@ golangci-lint = "latest"
 sqlc = "latest"
 aws-sam-cli = "latest"
 yt-dlp = "latest"
-"go:golang.org/x/tools/gopls" = "latest"
-"go:honnef.co/go/tools/cmd/staticcheck" = "latest"
+# gopls and staticcheck are deliberately absent: mise's go backend needs proxy.golang.org, which
+# corporate networks block. Install them with `go install` under a reachable GOPROXY instead.
