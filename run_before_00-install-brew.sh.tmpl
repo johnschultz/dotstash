@@ -1,8 +1,15 @@
 #!/bin/bash
 # Runs on every apply (cheap check) so a failed install is retried next time instead of being
-# recorded as done. The Homebrew installer needs sudo; answer the password prompt if asked.
+# recorded as done.
 if [ ! -x "{{ .brewPrefix }}/bin/brew" ]; then
-  echo "Homebrew not found at {{ .brewPrefix }}; installing (may prompt for your password)"
+  echo "Homebrew not found at {{ .brewPrefix }}; installing"
+  # With NONINTERACTIVE=1 the installer probes sudo with `sudo -n`, which only works if credentials
+  # are already cached. Prompt for them here first, where we still have the terminal.
+  if [ -t 0 ]; then
+    sudo -v || echo "WARNING: could not obtain sudo; the Homebrew installer will likely fail"
+  else
+    echo "WARNING: no terminal for the sudo prompt; run 'sudo -v' then 'chezmoi apply' if the install fails"
+  fi
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
     || echo "WARNING: Homebrew install failed; brew bundle will be skipped until it succeeds"
 fi
