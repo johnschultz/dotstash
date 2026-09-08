@@ -58,7 +58,7 @@ Templates test only these booleans. `.chezmoiignore.tmpl` drops whole files per 
 
 - `dot_config/mise/config.toml` is the cross-platform installer: languages and all CLI tools via mise's aqua/ubi/go backends. `run_onchange_after_30-mise-install.sh.tmpl` re-runs `mise install` when it changes.
 - `dot_config/homebrew/Brewfile.tmpl` holds only system libs and macOS casks. `run_onchange_after_20-brew-bundle.sh.tmpl` re-runs `brew bundle` when it changes.
-- `run_once_before_*` install Homebrew (when `brewPrefix` is set) and mise.
+- `run_before_*` install Homebrew (when `brewPrefix` is set) and mise. They run on every apply as a cheap existence check, so a failed install is retried rather than recorded as done. The brew bundle script hashes brew's presence as well as the Brewfile, so it fires on the first apply after brew shows up.
 
 ## SSH auth convention
 

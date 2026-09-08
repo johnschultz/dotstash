@@ -1,7 +1,9 @@
 #!/bin/bash
+# Re-runs when the Brewfile changes OR when brew appears/disappears, so a bundle skipped on a
+# machine that had no brew yet runs on the first apply after brew is installed.
 # Brewfile hash: {{ includeTemplate "dot_config/homebrew/Brewfile.tmpl" . | sha256sum }}
-# Non-fatal: one cask already installed from a .dmg must not fail every future apply.
+# brew present: {{ if stat (joinPath .brewPrefix "bin/brew") }}yes{{ else }}no{{ end }}
 BREW="{{ .brewPrefix }}/bin/brew"
-[ -x "$BREW" ] || { echo "brew not found at $BREW; skipping bundle"; exit 0; }
+[ -x "$BREW" ] || { echo "WARNING: brew not found at $BREW; skipping brew bundle"; exit 0; }
 eval "$("$BREW" shellenv)"
-brew bundle --file="$HOME/.config/homebrew/Brewfile" || echo "brew bundle reported failures; see above"
+brew bundle --file="$HOME/.config/homebrew/Brewfile" || echo "WARNING: brew bundle reported failures; see above"

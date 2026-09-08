@@ -1,7 +1,0 @@
-#!/bin/bash
-# Non-fatal: a failed brew install (e.g. no passwordless sudo on Linux) must not block the dotfiles.
-if [ ! -x "{{ .brewPrefix }}/bin/brew" ]; then
-  echo "Installing Homebrew to {{ .brewPrefix }}"
-  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
-    || echo "Homebrew install failed; continuing without it"
-fi
