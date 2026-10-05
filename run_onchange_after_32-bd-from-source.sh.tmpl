@@ -1,0 +1,59 @@
+#!/bin/sh
+# Linux only (ignored on macOS). The bd release binary that mise installs is linked against
+# glibc 2.34; on older hosts (Amazon Linux 2 ships 2.26) it dies with "GLIBC_2.34 not found".
+# CGO_ENABLED=0 is not an option either: bd's embedded Dolt engine requires cgo. So when the mise
+# binary does not run, build the same locked version from source into ~/bin/bd. 35-path puts
+# ~/bin first on PATH, so the built binary wins over the mise shim.
+# Re-runs when the locked bd version changes (the lock hash below), so a bump rebuilds here too.
+# bd version: {{ (index (index (include "dot_config/mise/mise.lock" | fromToml).tools "github:gastownhall/beads") 0).version }}
+# mise lock hash: {{ include "dot_config/mise/mise.lock" | sha256sum }}
+# Non-fatal: every failure warns and exits 0 so one bad host never fails the apply.
+export PATH="$HOME/.local/bin:$PATH"
+VER="{{ (index (index (include "dot_config/mise/mise.lock" | fromToml).tools "github:gastownhall/beads") 0).version }}"
+
+MISE_BD="$(mise which bd 2>/dev/null)"
+if [ -n "$MISE_BD" ] && "$MISE_BD" --version >/dev/null 2>&1; then
+  [ -x "$HOME/bin/bd" ] && echo "note: the mise bd runs on this host; ~/bin/bd shadows it, remove it if unwanted"
+  exit 0
+fi
+
+# Already built this version from source.
+if [ -x "$HOME/bin/bd" ] && "$HOME/bin/bd" --version 2>/dev/null | grep -q "bd version $VER"; then
+  exit 0
+fi
+
+GO="$(mise which go 2>/dev/null || command -v go)"
+[ -n "$GO" ] && [ -x "$GO" ] || { echo "WARNING: bd release binary does not run here and go is missing; skipping bd source build"; exit 0; }
+command -v gcc >/dev/null 2>&1 || { echo "WARNING: bd release binary does not run here and gcc is missing; skipping bd source build"; exit 0; }
+command -v git >/dev/null 2>&1 || { echo "WARNING: git is missing; skipping bd source build"; exit 0; }
+
+# Dolt's regex engine needs ICU headers (unicode/uregex.h); the build links the system libicu.
+if [ ! -e /usr/include/unicode/uregex.h ]; then
+  if ! sudo -n yum install -y libicu-devel >/dev/null 2>&1; then
+    echo "WARNING: bd needs libicu-devel to build. Run:  sudo yum install -y libicu-devel  then 'chezmoi apply'"
+    exit 0
+  fi
+fi
+
+SRC="$HOME/.cache/bd-src/v$VER"
+if [ ! -d "$SRC/.git" ]; then
+  rm -rf "$SRC"
+  mkdir -p "$(dirname "$SRC")"
+  git clone --quiet --depth 1 -b "v$VER" https://github.com/gastownhall/beads "$SRC" \
+    || { echo "WARNING: git clone of beads v$VER failed; skipping bd source build"; exit 0; }
+fi
+
+# proxy.golang.org and sum.golang.org are blocked on corporate networks (see mise config.toml),
+# hence GOPROXY=direct. Build to a temp file so a failed build never clobbers a working ~/bin/bd.
+echo "building bd v$VER from source (the mise release binary needs a newer glibc)..."
+mkdir -p "$HOME/bin"
+OUT="$HOME/bin/.bd.build.$$"
+if (cd "$SRC" && GOPROXY=direct GOSUMDB=off GOFLAGS=-mod=mod CGO_ENABLED=1 \
+      "$GO" build -trimpath -ldflags="-s -w" -o "$OUT" ./cmd/bd); then
+  mv -f "$OUT" "$HOME/bin/bd" && "$HOME/bin/bd" --version \
+    || echo "WARNING: built bd but it does not run; see above"
+else
+  rm -f "$OUT"
+  echo "WARNING: bd source build failed; see above. Rerun 'chezmoi apply' after fixing"
+fi
+exit 0

@@ -39,12 +39,13 @@ Machine facts (`work`, `mac`, `linux`, `wsl`, `cloudDesktop`, `brewPrefix`) are 
 
 - `~/.config/mise/config.toml`: node, python, go, rust and all CLI tools, including `bd` (beads). Works on every OS and arch.
 - `~/.config/mise/mise.lock`: committed lockfile (`locked = true`), so every host installs the same versions. Bump with `mise lock -g --bump`, then `chezmoi re-add ~/.config/mise/mise.lock`; the next apply reinstalls everywhere.
+- `run_onchange_after_32-bd-from-source.sh` (Linux only): the `bd` release binary needs glibc 2.34, and bd cannot be built without cgo (embedded Dolt). On hosts where the mise binary does not run (Amazon Linux 2 has glibc 2.26) it builds the locked version from source with mise's Go and the system libicu (`libicu-devel`, installed via `sudo -n yum` or printed as a hint) into `~/bin/bd`, which is first on PATH. Re-runs when the lock changes. Never fails the apply.
 - `~/.config/homebrew/Brewfile`: system libraries and macOS apps only.
 - `~/.config/terminfo/xterm-ghostty.src`: Ghostty's terminfo, compiled with `tic -x` on Linux hosts that lack it (`run_onchange_after_15-terminfo.sh`), so `TERM=xterm-ghostty` over SSH gets a working zsh line editor. Skipped on macOS, where Ghostty ships the entry.
 
 ## Work hosts: Amazon tooling and the agent kit
 
-On work machines `run_after_40-toolbox.sh` runs on every apply. It exits with one hint when `toolbox` is missing or there is no Midway session (`mwinit -o`, then `chezmoi apply` again). Otherwise it installs `ada`, `aim`, `claude-code`, `agentspaces` and `brazilworktreecli` if they are absent from `~/.toolbox/bin`, creates the Brazil workspace `~/workplace/agent-kit-ws` (version set `live`) with the `SchultjoAgentKit` package, symlinks it to `~/workplace/agent-kit`, and runs the kit's `setup/install.sh` if present. Everything Amazon-specific (accounts, remotes, namespaces) lives in that kit, not here.
+On work machines `run_after_40-toolbox.sh` runs on every apply. It exits with one hint when `toolbox` is missing or there is no Midway session (`mwinit -o`, then `chezmoi apply` again). Otherwise it installs `brazilcli` (the `brazil` command, which the kit step needs and a fresh host lacks), `ada`, `aim`, `claude-code`, `agentspaces` and `brazilworktreecli` if they are absent from `~/.toolbox/bin`, creates the Brazil workspace `~/workplace/agent-kit-ws` (version set `live`) with the `SchultjoAgentKit` package, symlinks it to `~/workplace/agent-kit`, and runs the kit's `setup/install.sh` if present. Everything Amazon-specific (accounts, remotes, namespaces) lives in that kit, not here.
 
 Shell drop-in `65-vault` exports `KIT_VAULT_DIR` when `~/Documents/obsidian-mind` exists, so the kit can tell a vault host from a replica host without a prompt.
 

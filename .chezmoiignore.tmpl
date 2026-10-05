@@ -30,3 +30,7 @@ Library
 .config/terminfo
 15-terminfo.sh
 {{- end }}
+
+{{ if not .linux -}}
+32-bd-from-source.sh
+{{- end }}
