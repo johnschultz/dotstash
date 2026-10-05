@@ -3,8 +3,10 @@
 {{- if .mac }}{{ $agent = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" }}
 {{- else if not .cloudDesktop }}{{ $agent = "~/.1password/agent.sock" }}{{ end -}}
 # Personal hosts authenticate through the 1Password SSH agent.
+# GitHub over ssh.github.com:443: corporate networks block port 22 to github.com.
 Host personalgithub
-  HostName github.com
+  HostName ssh.github.com
+  Port 443
   User git
   IdentityFile ~/.ssh/johnschultz.pub
   IdentitiesOnly yes
@@ -13,7 +15,8 @@ Host personalgithub
 {{- end }}
 
 Host nofugithub
-  HostName github.com
+  HostName ssh.github.com
+  Port 443
   User git
   IdentityFile ~/.ssh/ajaxify.pub
   IdentitiesOnly yes
