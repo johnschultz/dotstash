@@ -40,6 +40,7 @@ Machine facts (`work`, `mac`, `linux`, `wsl`, `cloudDesktop`, `brewPrefix`) are 
 - `~/.config/mise/config.toml`: node, python, go, rust and all CLI tools, including `bd` (beads). Works on every OS and arch.
 - `~/.config/mise/mise.lock`: committed lockfile (`locked = true`), so every host installs the same versions. Bump with `mise lock -g --bump`, then `chezmoi re-add ~/.config/mise/mise.lock`; the next apply reinstalls everywhere.
 - `~/.config/homebrew/Brewfile`: system libraries and macOS apps only.
+- `~/.config/terminfo/xterm-ghostty.src`: Ghostty's terminfo, compiled with `tic -x` on Linux hosts that lack it (`run_onchange_after_15-terminfo.sh`), so `TERM=xterm-ghostty` over SSH gets a working zsh line editor. Skipped on macOS, where Ghostty ships the entry.
 
 ## Work hosts: Amazon tooling and the agent kit
 

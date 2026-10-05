@@ -1,0 +1,6 @@
+#!/bin/sh
+# Ghostty sets TERM=xterm-ghostty; hosts without its terminfo get a dumb zsh line editor.
+# xterm-ghostty.src hash: {{ include "dot_config/terminfo/xterm-ghostty.src" | sha256sum }}
+command -v tic >/dev/null 2>&1 || { echo "tic not found; skipping xterm-ghostty terminfo"; exit 0; }
+infocmp xterm-ghostty >/dev/null 2>&1 && exit 0
+tic -x "$HOME/.config/terminfo/xterm-ghostty.src" || echo "WARNING: tic failed for xterm-ghostty"

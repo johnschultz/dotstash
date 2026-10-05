@@ -25,3 +25,8 @@ Library
 .config/zsh/80-wsl.zsh
 .config/bash/80-wsl.bash
 {{- end }}
+
+{{ if .mac -}}
+.config/terminfo
+15-terminfo.sh
+{{- end }}
