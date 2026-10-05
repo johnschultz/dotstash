@@ -1,0 +1,37 @@
+#!/bin/bash
+# Work hosts only (ignored otherwise). Runs on every apply; every step is a no-op once done.
+# Installs the Amazon tools an agent host needs, by name only, then checks out the agent kit with
+# brazil and hands over to the kit's own installer. Account IDs, remotes and namespaces live there.
+command -v toolbox >/dev/null 2>&1 || { echo "toolbox not installed; skipping Amazon tooling"; exit 0; }
+toolbox list >/dev/null 2>&1 || { echo "No Midway session: run 'mwinit -o' then 'chezmoi apply' for Amazon tooling"; exit 0; }
+
+# brazilworktreecli ships from its own registry (an S3 bucket, not a hostname).
+REGISTRY="s3://buildertoolbox-registry-brazilworktreecli-us-west-2/tools.json"
+toolbox registry list 2>/dev/null | grep -q "$REGISTRY" \
+  || toolbox registry add "$REGISTRY" || echo "WARNING: could not add the brazilworktreecli registry"
+
+# Tool names, not binary names: claude-code installs `claude`, brazilworktreecli installs `brazil-worktree`.
+INSTALLED="$(toolbox list --installed 2>/dev/null | awk '{print $1}')"
+for t in ada aim claude-code agentspaces brazilworktreecli; do
+  printf '%s\n' "$INSTALLED" | grep -qx "$t" && continue
+  case $t in
+    brazilworktreecli) toolbox install --channel bravehearts "$t" ;;
+    *) toolbox install "$t" ;;
+  esac || echo "WARNING: toolbox install $t failed; rerun 'chezmoi apply' later"
+done
+
+# The agent kit: a scratch Brazil workspace on live, a stable symlink, then the kit's installer
+# (it may not exist yet in the checked-out package; skip quietly until it does).
+command -v brazil >/dev/null 2>&1 || { echo "brazil not installed; skipping the agent kit"; exit 0; }
+KIT_WS="$HOME/workplace/agent-kit-ws"
+KIT="$KIT_WS/src/SchultjoAgentKit"
+mkdir -p "$HOME/workplace"
+[ -d "$KIT_WS" ] || brazil ws create --root "$KIT_WS" --versionSet live \
+  || { echo "WARNING: brazil ws create failed; rerun 'chezmoi apply' later"; exit 0; }
+[ -d "$KIT" ] || (cd "$KIT_WS" && brazil ws use -p SchultjoAgentKit) \
+  || { echo "WARNING: brazil ws use SchultjoAgentKit failed; rerun 'chezmoi apply' later"; exit 0; }
+[ -e "$HOME/workplace/agent-kit" ] || ln -s "$KIT" "$HOME/workplace/agent-kit"
+if [ -x "$KIT/setup/install.sh" ]; then
+  "$KIT/setup/install.sh" || echo "WARNING: agent kit setup/install.sh reported failures; see above"
+fi
+exit 0

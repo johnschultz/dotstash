@@ -1,5 +1,7 @@
 #!/bin/sh
+# Re-runs when the tool list or the lock changes, so `mise lock -g --bump` + re-add rolls out everywhere.
 # mise config hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+# mise lock hash: {{ include "dot_config/mise/mise.lock" | sha256sum }}
 # Non-fatal: one unavailable build must not fail every future apply.
 export PATH="$HOME/.local/bin:$PATH"
 mise install --yes || echo "mise install reported failures; see above"

@@ -3,9 +3,13 @@
 [settings]
 # Honour .nvmrc / .python-version / .ruby-version per project, as nvm and frum did.
 idiomatic_version_file_enable_tools = ["node", "python", "ruby"]
+# Install only what the committed ~/.config/mise/mise.lock resolves, so every host runs the same
+# versions. Bump with `mise lock -g --bump`, `chezmoi re-add ~/.config/mise/mise.lock`, apply everywhere.
+locked = true
+lockfile_platforms = ["macos-arm64", "linux-x64"]
 
 [tools]
-node = "22"
+node = "22.23.2"
 python = ["3.12", "3.11", "3.10", "3.9"]
 go = "latest"
 rust = "latest"
@@ -26,5 +30,8 @@ golangci-lint = "latest"
 sqlc = "latest"
 aws-sam-cli = "latest"
 yt-dlp = "latest"
+# bd, the beads task graph. One version on every host (the lock), because a newer bd migrates the
+# shared Dolt schema forward.
+"github:gastownhall/beads" = "latest"
 # gopls and staticcheck are deliberately absent: mise's go backend needs proxy.golang.org, which
 # corporate networks block. Install them with `go install` under a reachable GOPROXY instead.

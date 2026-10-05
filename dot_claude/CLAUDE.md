@@ -13,6 +13,7 @@ Rules of the seam:
 - A code session does not edit vault notes directly. It reports through the three verbs below. The vault's `/om-intake` routes what arrives.
 - One task DB. Beads live in the vault at `~/Documents/obsidian-mind/.beads`. From any directory: `bd -C ~/Documents/obsidian-mind <cmd>`.
 - Cite beads as "Title (om-xxxx)", never a bare ID.
+- If `~/Documents/obsidian-mind` is not on this host, use the agent kit's `seam-context`, `seam-task`, `seam-drop` skills instead of the three `om-vault-*` commands; they speak to the beads replica and the vault inbox remotely.
 
 ## The three seam verbs
 

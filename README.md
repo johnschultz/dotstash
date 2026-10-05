@@ -37,8 +37,15 @@ Machine facts (`work`, `mac`, `linux`, `wsl`, `cloudDesktop`, `brewPrefix`) are 
 
 ## Packages
 
-- `~/.config/mise/config.toml`: node, python, go, rust and all CLI tools. Works on every OS and arch.
+- `~/.config/mise/config.toml`: node, python, go, rust and all CLI tools, including `bd` (beads). Works on every OS and arch.
+- `~/.config/mise/mise.lock`: committed lockfile (`locked = true`), so every host installs the same versions. Bump with `mise lock -g --bump`, then `chezmoi re-add ~/.config/mise/mise.lock`; the next apply reinstalls everywhere.
 - `~/.config/homebrew/Brewfile`: system libraries and macOS apps only.
+
+## Work hosts: Amazon tooling and the agent kit
+
+On work machines `run_after_40-toolbox.sh` runs on every apply. It exits with one hint when `toolbox` is missing or there is no Midway session (`mwinit -o`, then `chezmoi apply` again). Otherwise it installs `ada`, `aim`, `claude-code`, `agentspaces` and `brazilworktreecli` if they are absent from `~/.toolbox/bin`, creates the Brazil workspace `~/workplace/agent-kit-ws` (version set `live`) with the `SchultjoAgentKit` package, symlinks it to `~/workplace/agent-kit`, and runs the kit's `setup/install.sh` if present. Everything Amazon-specific (accounts, remotes, namespaces) lives in that kit, not here.
+
+Shell drop-in `65-vault` exports `KIT_VAULT_DIR` when `~/Documents/obsidian-mind` exists, so the kit can tell a vault host from a replica host without a prompt.
 
 ## Day to day
 
