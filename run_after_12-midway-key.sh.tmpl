@@ -1,0 +1,12 @@
+#!/bin/sh
+# Work hosts only (ignored otherwise). Runs on every apply; cheap, and always exits 0.
+# Midway signs an ecdsa key into ~/.ssh/id_ecdsa-cert.pub; without the key, mwinit cannot issue the cert and
+# GitFarm (brazil ws use, git clone) refuses the host. Create the key once; mwinit stays a human step.
+command -v ssh-keygen >/dev/null 2>&1 || exit 0
+if [ ! -f "$HOME/.ssh/id_ecdsa" ]; then
+  mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
+  ssh-keygen -q -t ecdsa -N "" -f "$HOME/.ssh/id_ecdsa" -C "$(whoami)@$(hostname -s) midway" \
+    && echo "Created ~/.ssh/id_ecdsa for Midway. Run: mwinit -o   (issues the ssh cert; needed before brazil/GitFarm work)"
+fi
+[ -f "$HOME/.ssh/id_ecdsa-cert.pub" ] || echo "No Midway ssh cert yet: run 'mwinit -o' on this host before brazil ws use or git clone from GitFarm"
+exit 0
